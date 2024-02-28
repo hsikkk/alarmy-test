@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "delightroom-test"
 include(":app")
+include(":core:domain")
