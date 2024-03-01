@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import com.hsikkk.delightroom.data.datasource.LocalMediaDataSource
 import com.hsikkk.delightroom.domain.model.entity.Album
 import com.hsikkk.delightroom.domain.model.entity.Track
+import com.hsikkk.delightroom.domain.model.exception.NoPermissionException
 import java.net.URI
 
 class LocalMediaDataSourceImpl(
@@ -143,7 +144,7 @@ class LocalMediaDataSourceImpl(
 
     private fun checkPermission() {
         if (!hasPermission()) {
-            throw Exception("Need READ_MEDIA_AUDIO Permission")
+            throw NoPermissionException()
         }
     }
 
