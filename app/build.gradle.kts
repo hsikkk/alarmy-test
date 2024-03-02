@@ -68,5 +68,5 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(project(":core:di"))
-    implementation(project(":feature:playerservice"))
+    implementation(project(":core:mediaplayer"))
 }

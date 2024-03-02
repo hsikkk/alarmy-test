@@ -2,14 +2,11 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.hsikkk.delightroom.playerservice"
-    compileSdk = 34
+    namespace = "com.hsikkk.delightroom.mediaplayer"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 26
@@ -37,11 +34,9 @@ android {
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
     implementation(libs.media3.common)
     implementation(libs.media3.session)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.coroutine)
 }
