@@ -53,6 +53,7 @@ class MedialPlayerService : MediaSessionService() {
 
                 controllerFuture.addListener(
                     {
+                        mediaController.value?.release()
                         controllerFuture.get().apply {
                             mediaController.value = this
                             action()
@@ -61,6 +62,7 @@ class MedialPlayerService : MediaSessionService() {
                     MoreExecutors.directExecutor()
                 )
             }
+
         }
 
         suspend fun observeMediaController(action: MediaController.() -> Unit){
