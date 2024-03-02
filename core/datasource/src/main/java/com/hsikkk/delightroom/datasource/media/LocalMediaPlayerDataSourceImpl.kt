@@ -2,6 +2,8 @@ package com.hsikkk.delightroom.datasource.media
 
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
@@ -11,6 +13,7 @@ import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerStatus
 import com.hsikkk.delightroom.mediaplayer.MedialPlayerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -24,13 +27,13 @@ class LocalMediaPlayerDataSourceImpl(
             isInPlaying = false,
             currentTrackIndex = -1,
             playList = emptyList(),
-            progress = 0f,
+            currentPosition = 0,
             volume = 0f,
         )
     )
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             MedialPlayerService.observeMediaController {
                 addPlayerEventListener()
             }
@@ -62,7 +65,7 @@ class LocalMediaPlayerDataSourceImpl(
                     playerStatusFlow.value = playerStatusFlow.value.copy(
                         playList = newItems,
                         currentTrackIndex = action.startIndex,
-                        progress = 0f,
+                        currentPosition = 0,
                     )
                 }
 
@@ -92,10 +95,59 @@ class LocalMediaPlayerDataSourceImpl(
     }
 
     private fun MediaController.addPlayerEventListener(){
-        addListener(object : Player.Listener {
+        addListener(object : Player.Listener, AutoCloseable {
+            private val handler = Handler(Looper.getMainLooper())
+            private val delay: Long = 1000
+            private val checkCurrentPositionRunnable = object : Runnable {
+                override fun run() {
+                    playerStatusFlow.value = playerStatusFlow.value.copy(
+                        currentPosition = currentPosition
+                    )
 
-            //TODO : player stautus 변경 사항 emit
+                    handler.postDelayed(this, delay)
+                }
+            }
 
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                playerStatusFlow.value = playerStatusFlow.value.copy(
+                    isInPlaying = isPlaying
+                )
+
+                if(isPlaying){
+                    handler.postDelayed(checkCurrentPositionRunnable, delay)
+                } else {
+                    handler.removeCallbacks(checkCurrentPositionRunnable)
+                }
+            }
+
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+                playerStatusFlow.value = playerStatusFlow.value.copy(
+                    currentPosition = currentPosition
+                )
+            }
+
+            override fun onVolumeChanged(volume: Float) {
+                super.onVolumeChanged(volume)
+                playerStatusFlow.value = playerStatusFlow.value.copy(
+                    volume = volume
+                )
+            }
+
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                playerStatusFlow.value = playerStatusFlow.value.copy(
+                    currentTrackIndex = currentMediaItemIndex
+                )
+            }
+
+            override fun close() {
+                handler.removeCallbacks(checkCurrentPositionRunnable)
+            }
         })
     }
 }
