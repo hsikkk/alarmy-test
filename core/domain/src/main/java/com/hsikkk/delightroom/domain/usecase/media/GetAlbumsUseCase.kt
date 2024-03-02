@@ -6,5 +6,5 @@ import com.hsikkk.delightroom.domain.repository.MediaRepository
 class GetAlbumsUseCase(
     private val mediaRepository: MediaRepository
 ) {
-    fun invoke() : List<Album> = mediaRepository.getAlbums()
+    operator fun invoke() : List<Album> = mediaRepository.getAlbums()
 }

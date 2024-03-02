@@ -6,5 +6,5 @@ import com.hsikkk.delightroom.domain.repository.MediaRepository
 class GetAlbumTrackListUseCase (
     private val mediaRepository: MediaRepository
 ) {
-    fun invoke(albumId: Long) : List<Track> = mediaRepository.getAlbumTrackList(albumId)
+    operator fun invoke(albumId: Long) : List<Track> = mediaRepository.getAlbumTrackList(albumId)
 }
