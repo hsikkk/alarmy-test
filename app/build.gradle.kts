@@ -69,4 +69,5 @@ dependencies {
 
     implementation(project(":core:di"))
     implementation(project(":core:mediaplayer"))
+    implementation(project(":core:designsystem"))
 }
