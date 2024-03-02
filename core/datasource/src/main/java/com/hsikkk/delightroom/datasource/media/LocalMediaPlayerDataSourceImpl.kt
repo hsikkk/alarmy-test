@@ -49,16 +49,18 @@ class LocalMediaPlayerDataSourceImpl(
 
                 MediaPlayerAction.Pause -> pause()
 
-                is MediaPlayerAction.AddItemsToPlaylist -> {
+                is MediaPlayerAction.SetItemsToPlaylist -> {
                     val newItems = if (action.shuffleRandom) {
                         action.items.shuffled()
                     } else action.items
 
-                    addMediaItems(
+                    setMediaItems(
                         newItems
                             .map { MediaItem.fromUri(Uri.parse(it.contentUri.toString())) }
                             .toList()
                     )
+
+                    prepare()
 
                     seekTo(action.startIndex, 0)
 
