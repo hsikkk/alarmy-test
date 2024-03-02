@@ -9,7 +9,7 @@ sealed interface MediaPlayerAction {
 
     object Pause : MediaPlayerAction
 
-    data class AddItemsToPlaylist(
+    data class SetItemsToPlaylist(
         val items: List<Track>,
         val shuffleRandom: Boolean,
         val startIndex: Int,
