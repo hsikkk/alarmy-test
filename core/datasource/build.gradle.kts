@@ -36,6 +36,8 @@ android {
 dependencies {
 
     implementation(libs.core.ktx)
+    implementation(libs.coroutine)
+    implementation(libs.media3.common)
 
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
