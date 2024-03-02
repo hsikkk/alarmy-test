@@ -8,7 +8,7 @@ data class MediaPlayerStatus(
     val currentTrackIndex: Int,
     val playList: List<Track>,
 
-    val progress: Float,
+    val currentPosition: Long,
 
     val volume: Float,
 ){
