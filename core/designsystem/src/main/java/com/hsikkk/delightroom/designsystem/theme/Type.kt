@@ -1,4 +1,4 @@
-package com.hsikkk.delightroom.test.ui.theme
+package com.hsikkk.delightroom.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
