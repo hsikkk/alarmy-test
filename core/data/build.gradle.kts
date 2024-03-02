@@ -10,5 +10,7 @@ java {
 }
 
 dependencies{
+    implementation(libs.coroutine)
+
     implementation(project(":core:domain"))
 }
