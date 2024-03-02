@@ -1,7 +1,6 @@
 package com.hsikkk.delightroom.di
 
 import android.content.Context
-import androidx.media3.common.Player
 import com.hsikkk.delightroom.data.datasource.LocalMediaDataSource
 import com.hsikkk.delightroom.data.datasource.LocalMediaPlayerDataSource
 import com.hsikkk.delightroom.datasource.media.LocalMediaDataSourceImpl
@@ -29,10 +28,10 @@ object DataSourceModule {
     @Singleton
     @Provides
     fun provideLocalMediaPlayerDataSource(
-        player: Player
+        @ApplicationContext context: Context
     ) : LocalMediaPlayerDataSource {
         return LocalMediaPlayerDataSourceImpl(
-            player = player
+            context = context
         )
     }
 }

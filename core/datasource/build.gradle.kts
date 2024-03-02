@@ -38,7 +38,9 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.coroutine)
     implementation(libs.media3.common)
+    implementation(libs.media3.session)
 
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
+    implementation(project(":core:mediaplayer"))
 }

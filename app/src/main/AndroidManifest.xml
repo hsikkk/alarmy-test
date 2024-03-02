@@ -28,7 +28,7 @@
         </activity>
 
         <service
-            android:name="com.hsikkk.delightroom.playerservice.MedialPlayerService"
+            android:name="com.hsikkk.delightroom.mediaplayer.MedialPlayerService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback">
             <intent-filter>
