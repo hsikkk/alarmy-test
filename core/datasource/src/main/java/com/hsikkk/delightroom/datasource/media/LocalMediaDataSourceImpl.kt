@@ -70,18 +70,18 @@ class LocalMediaDataSourceImpl(
 
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.DISPLAY_NAME,
+            MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.ALBUM_ARTIST,
-            MediaStore.Audio.Media.NUM_TRACKS,
+            MediaStore.Audio.Media.CD_TRACK_NUMBER,
         )
         val selection = "${MediaStore.Audio.Media.ALBUM_ID} == ?"
         val selectionArgs = arrayOf(
             albumId.toString()
         )
-        val sortOrder = "${MediaStore.Audio.Media.NUM_TRACKS} ASC"
+        val sortOrder = "${MediaStore.Audio.Media.CD_TRACK_NUMBER} ASC"
 
         val collection = getMediaRootUri()
 
@@ -93,13 +93,13 @@ class LocalMediaDataSourceImpl(
             sortOrder
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-            val nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
+            val nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
             val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
             val albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
             val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
             val albumArtistColumn =
                 cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ARTIST)
-            val numTracksColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.NUM_TRACKS)
+            val cdTrackNumberColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.CD_TRACK_NUMBER)
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)
@@ -113,7 +113,7 @@ class LocalMediaDataSourceImpl(
                         albumId = cursor.getLong(albumIdColumn),
                         albumName = cursor.getString(albumColumn),
                         artist = cursor.getString(albumArtistColumn),
-                        numTracks = cursor.getInt(numTracksColumn),
+                        cdTrackNumber = cursor.getInt(cdTrackNumberColumn),
                         albumArtUri = URI(getAlbumArtUri(albumId).toString()),
                         contentUri = URI(
                             ContentUris.withAppendedId(

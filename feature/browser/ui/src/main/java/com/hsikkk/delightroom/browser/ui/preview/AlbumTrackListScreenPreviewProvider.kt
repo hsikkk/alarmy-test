@@ -23,7 +23,7 @@ internal class AlbumTrackListScreenPreviewProvider :
                     albumId = 1,
                     albumName = "album",
                     artist = "artist",
-                    numTracks = it + 1,
+                    cdTrackNumber = it + 1,
                     albumArtUri = URI.create("test"),
                     contentUri = URI.create("test"),
                 )

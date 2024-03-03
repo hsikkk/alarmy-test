@@ -71,7 +71,7 @@ private fun TrackItemListPreview(
                     albumId = it.toLong(),
                     albumName = "album$it",
                     artist = "artist$it",
-                    numTracks = it + 1,
+                    cdTrackNumber = it + 1,
                     albumArtUri = URI.create("test"),
                     contentUri = URI.create("test"),
                 )

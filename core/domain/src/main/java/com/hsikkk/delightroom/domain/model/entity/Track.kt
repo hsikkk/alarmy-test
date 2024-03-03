@@ -9,7 +9,7 @@ data class Track(
     val albumId: Long,
     val albumName: String,
     val artist: String,
-    val numTracks: Int,
+    val cdTrackNumber: Int,
     val albumArtUri: URI,
     val contentUri: URI,
 )

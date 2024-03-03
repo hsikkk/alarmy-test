@@ -37,7 +37,7 @@ internal fun TrackItem(
         Spacer(modifier = Modifier.width(4.dp))
 
         Text(
-            text = "${track.numTracks}",
+            text = "${track.cdTrackNumber}",
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             color = Color.LightGray,
@@ -73,7 +73,7 @@ private fun TrackItemPreview(
                 albumId = 1,
                 albumName = "album1",
                 artist = "artist1",
-                numTracks = 2,
+                cdTrackNumber = 2,
                 albumArtUri = URI.create("test"),
                 contentUri = URI.create("test"),
             ),
