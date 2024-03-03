@@ -66,6 +66,8 @@ dependencies {
 
     implementation(libs.immutable)
 
+    implementation(libs.bundles.coil)
+
     implementation(project(mapOf("path" to ":core:domain")))
     implementation(project(mapOf("path" to ":core:designsystem")))
     implementation(project(mapOf("path" to ":core:common")))
