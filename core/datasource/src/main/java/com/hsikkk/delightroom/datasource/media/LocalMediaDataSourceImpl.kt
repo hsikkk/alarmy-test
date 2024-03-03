@@ -60,7 +60,7 @@ class LocalMediaDataSourceImpl(
             }
         }
 
-        return items
+        return items.distinctBy{ it.id }
     }
 
     override fun getAlbumTrackList(albumId: Long): List<Track> {
