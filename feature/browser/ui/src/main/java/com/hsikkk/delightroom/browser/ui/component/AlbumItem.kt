@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.hsikkk.delightroom.common.util.clickableSingle
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
 import com.hsikkk.delightroom.domain.model.entity.Album
 import java.net.URI
@@ -31,10 +32,12 @@ import java.net.URI
 internal fun AlbumItem(
     modifier: Modifier = Modifier,
     album: Album,
+    onClickItem: (albumId : Long) -> Unit,
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
+            .clickableSingle { onClickItem(album.id) }
             .shadow(1.dp, clip = true, shape = RoundedCornerShape(12.dp))
     ) {
         Column(
@@ -96,7 +99,8 @@ private fun AlbumItemPreview(
                 name = "album1",
                 artist = "artist1",
                 albumArtUri = URI.create("testUri"),
-            )
+            ),
+            onClickItem = {},
         )
     }
 }
