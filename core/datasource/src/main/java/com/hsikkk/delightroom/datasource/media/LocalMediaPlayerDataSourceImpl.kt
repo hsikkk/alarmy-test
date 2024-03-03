@@ -10,6 +10,7 @@ import androidx.media3.session.MediaController
 import com.hsikkk.delightroom.data.datasource.LocalMediaPlayerDataSource
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerAction
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerStatus
+import com.hsikkk.delightroom.domain.model.valueobject.RepeatMode
 import com.hsikkk.delightroom.mediaplayer.MedialPlayerService
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,8 @@ class LocalMediaPlayerDataSourceImpl(
             playList = emptyList(),
             currentPosition = 0,
             volume = 0f,
+            repeatMode = RepeatMode.REPEAT_OFF,
+            isShuffleEnabled = false,
         )
     )
 
