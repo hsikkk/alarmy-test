@@ -43,11 +43,11 @@ import kotlinx.collections.immutable.ImmutableList
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-internal fun AlbumRoute(
-    viewModel: AlbumViewModel = hiltViewModel(),
+fun AlbumRoute(
     goBack: () -> Unit,
     goAlbumDetail: (albumId: Long) -> Unit,
 ) {
+    val viewModel: AlbumViewModel = hiltViewModel()
 
     val uiState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
 
