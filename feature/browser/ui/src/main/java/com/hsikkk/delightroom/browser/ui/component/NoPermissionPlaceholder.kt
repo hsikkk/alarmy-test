@@ -86,7 +86,7 @@ private fun checkAndRequestPermission(
     }
 }
 
-@Preview(name = "loading placeholder")
+@Preview(name = "권한 없는 경우 placeholder")
 @Composable
 private fun NoPermissionPlaceholderPreview(
 

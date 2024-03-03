@@ -32,7 +32,7 @@ internal fun EmptyAlbumListPlaceholder(
     }
 }
 
-@Preview(name = "loading placeholder")
+@Preview(name = "album 없는 경우 placeholder")
 @Composable
 private fun EmptyAlbumListPlaceholderPreview(
 
