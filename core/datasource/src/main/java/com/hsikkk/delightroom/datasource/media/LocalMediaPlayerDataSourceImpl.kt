@@ -11,12 +11,9 @@ import com.hsikkk.delightroom.data.datasource.LocalMediaPlayerDataSource
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerAction
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerStatus
 import com.hsikkk.delightroom.mediaplayer.MedialPlayerService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 
 class LocalMediaPlayerDataSourceImpl(
     private val context : Context
@@ -33,10 +30,8 @@ class LocalMediaPlayerDataSourceImpl(
     )
 
     init {
-        CoroutineScope(Dispatchers.Main).launch {
-            MedialPlayerService.observeMediaController {
-                addPlayerEventListener()
-            }
+        runPlayerAction {
+            addPlayerEventListener()
         }
     }
 

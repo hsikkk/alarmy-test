@@ -9,8 +9,6 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import androidx.media3.session.SessionToken
 import com.google.common.util.concurrent.MoreExecutors
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 
 class MedialPlayerService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
@@ -42,33 +40,18 @@ class MedialPlayerService : MediaSessionService() {
         mediaSession
 
     companion object {
-        private var mediaController =  MutableStateFlow<MediaController?>(null)
         fun requestToPlayer(context: Context, action: MediaController.() -> Unit) {
-            if (mediaController.value != null) {
-                mediaController.value!!.action()
-            } else {
-                val sessionToken =
-                    SessionToken(context, ComponentName(context, MedialPlayerService::class.java))
-                val controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
+            val sessionToken =
+                SessionToken(context, ComponentName(context, MedialPlayerService::class.java))
+            val controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
 
-                controllerFuture.addListener(
-                    {
-                        mediaController.value?.release()
-                        controllerFuture.get().apply {
-                            mediaController.value = this
-                            action()
-                        }
-                    },
-                    MoreExecutors.directExecutor()
-                )
-            }
+            controllerFuture.addListener(
+                {지
+                    controllerFuture.get().action()
+                },
+                MoreExecutors.directExecutor()
+            )
 
-        }
-
-        suspend fun observeMediaController(action: MediaController.() -> Unit){
-            mediaController.collect {
-                it?.action()
-            }
         }
     }
 }
