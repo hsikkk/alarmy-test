@@ -15,3 +15,8 @@ fun NavGraphBuilder.composable(
         content = content,
     )
 }
+
+fun String.putParameter(
+    key: String,
+    value: String,
+) = this.replace("{$key}", value)
