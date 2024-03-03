@@ -100,7 +100,7 @@ private fun AlbumScreen(
 
                 AlbumState.NoPermission -> NoPermissionPlaceholder(
                     modifier = Modifier.fillMaxSize(),
-                    onPermissionGranted = { onPermissionGranted },
+                    onPermissionGranted = { onPermissionGranted() },
                 )
 
                 is AlbumState.FetchSuccess -> AlbumList(
