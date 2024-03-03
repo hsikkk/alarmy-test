@@ -40,4 +40,6 @@ dependencies {
     implementation(libs.orbit.core)
     implementation(libs.orbit.viewmodel)
 
+    implementation(libs.compose.navigation)
+
 }
