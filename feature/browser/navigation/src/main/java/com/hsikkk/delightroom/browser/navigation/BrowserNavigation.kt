@@ -3,6 +3,7 @@ package com.hsikkk.delightroom.browser.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.hsikkk.delightroom.browser.ui.AlbumRoute
+import com.hsikkk.delightroom.browser.ui.AlbumTrackListRoute
 import com.hsikkk.delightroom.common.navigation.composable
 
 fun NavGraphBuilder.browser(
@@ -11,7 +12,13 @@ fun NavGraphBuilder.browser(
     composable(BrowserDirections.albums){
         AlbumRoute(
             goBack = {}, //TODO
-            goAlbumDetail = {} //TODO
+            goAlbumDetail = { albumId ->  navController.navigateToAlbumTrackList(albumId)}
+        )
+    }
+
+    composable(BrowserDirections.albumTracks){
+        AlbumTrackListRoute(
+            goBack = { navController.popBackStack() },
         )
     }
 }
