@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.compose.navigation)
+
     implementation(project(":core:di"))
     implementation(project(":core:mediaplayer"))
     implementation(project(":core:designsystem"))
