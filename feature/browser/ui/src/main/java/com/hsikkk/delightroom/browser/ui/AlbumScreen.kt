@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -121,7 +122,7 @@ private fun AppBar() {
             Text(text = "라이브러리", color = Color.White)
         },
         colors =  TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color(0xFF4287f5),
+            containerColor = MaterialTheme.colorScheme.primary,
         )
     )
 }
@@ -134,7 +135,7 @@ private fun AlbumList(
 ) {
     if (albums.isNotEmpty()) {
         LazyVerticalGrid(
-            modifier = modifier.background(Color(0xFFEEEEEE)),
+            modifier = modifier.background(MaterialTheme.colorScheme.background),
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
