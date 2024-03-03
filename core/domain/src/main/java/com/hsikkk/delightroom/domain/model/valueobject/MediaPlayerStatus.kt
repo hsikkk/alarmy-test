@@ -17,7 +17,7 @@ data class MediaPlayerStatus(
 ){
     val currentTrack: Track?
         get() = playList.getOrNull(currentTrackIndex)
-    val duration: Int?
+    val duration: Long?
         get() = currentTrack?.duration
 }
 
