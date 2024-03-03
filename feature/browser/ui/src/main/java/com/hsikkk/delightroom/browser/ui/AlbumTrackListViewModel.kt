@@ -42,6 +42,7 @@ internal class AlbumTrackListViewModel @Inject constructor(
     }
 
     private fun initialize() = intent {
+        // Track 이 비어있는 경우에 대한 처리는 생략
         getAlbumTrackListUseCase(albumId).let {
             reduce {
                 AlbumTrackListState.FetchSuccess(
