@@ -86,7 +86,7 @@ internal fun AlbumItem(
     }
 }
 
-@Preview(name = "loading placeholder")
+@Preview(name = "album item")
 @Composable
 private fun AlbumItemPreview(
 

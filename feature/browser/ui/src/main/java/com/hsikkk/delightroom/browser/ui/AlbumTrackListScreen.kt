@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -136,7 +137,7 @@ private fun AppBar(
             Text(text = "뒤로", color = Color.White)
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = Color(0xFF4287f5),
+            containerColor = MaterialTheme.colorScheme.primary,
         )
     )
 }
@@ -151,7 +152,7 @@ private fun AlbumTrackList(
 ) {
     Column(
         modifier = modifier
-            .background(Color(0xFFEEEEEE))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         AlbumInfo(
             albumName = uiState.albumName,
