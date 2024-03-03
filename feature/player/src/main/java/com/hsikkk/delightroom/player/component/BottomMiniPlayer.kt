@@ -11,10 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +29,6 @@ import coil.compose.AsyncImage
 import com.hsikkk.delightroom.common.util.clickableSingle
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
 import com.hsikkk.delightroom.domain.model.entity.Track
-import com.hsikkk.delightroom.player.R
 import java.lang.Float.min
 import java.net.URI
 
@@ -118,28 +112,12 @@ private fun Player(
             .clickableSingle { onClick() }
             .padding(8.dp),
     ) {
-        IconButton(
+        PlayButton(
+            iconSize = 40.dp,
+            isInPlaying = isInPlaying,
             onClick = onClickPlayButton,
-            modifier = Modifier.size(60.dp)
-        ) {
-            val icSize = 40.dp
-
-            if (isInPlaying) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_pause),
-                    contentDescription = "pause",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(icSize),
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = "play",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(icSize),
-                )
-            }
-        }
+            modifier = Modifier.size(60.dp),
+        )
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -198,6 +176,7 @@ private fun BottomMiniPlayerInPlayingPreview() {
         )
     }
 }
+
 @Preview("정지")
 @Composable
 private fun BottomMiniPlayerInPausePreview() {
