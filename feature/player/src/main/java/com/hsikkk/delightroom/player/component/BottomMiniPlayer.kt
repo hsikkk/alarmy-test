@@ -33,7 +33,7 @@ import java.lang.Float.min
 import java.net.URI
 
 @Composable
-fun BottomMiniPlayer(
+internal fun BottomMiniPlayer(
     modifier: Modifier,
     isInPlaying: Boolean,
     currentTrack: Track,
@@ -81,18 +81,23 @@ private fun ProgressBar(
         modifier = modifier
             .height(4.dp),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(progress)
-                .background(MaterialTheme.colorScheme.primary)
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(1 - progress)
-                .background(Color.LightGray)
-        )
+        if(progress > 0f){
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(progress)
+                    .background(MaterialTheme.colorScheme.primary)
+            )
+        }
+
+        if(1-progress > 0f){
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1 - progress)
+                    .background(Color.LightGray)
+            )
+        }
     }
 }
 
