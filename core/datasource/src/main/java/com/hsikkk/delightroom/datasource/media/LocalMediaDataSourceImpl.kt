@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
+import androidx.core.database.getStringOrNull
 import com.hsikkk.delightroom.data.datasource.LocalMediaDataSource
 import com.hsikkk.delightroom.domain.model.entity.Album
 import com.hsikkk.delightroom.domain.model.entity.Track
@@ -112,7 +113,7 @@ class LocalMediaDataSourceImpl(
                         duration = cursor.getLong(durationColumn),
                         albumId = cursor.getLong(albumIdColumn),
                         albumName = cursor.getString(albumColumn),
-                        artist = cursor.getString(albumArtistColumn),
+                        artist = cursor.getStringOrNull(albumArtistColumn)?: "Unknown Artist",
                         cdTrackNumber = cursor.getInt(cdTrackNumberColumn),
                         albumArtUri = URI(getAlbumArtUri(albumId).toString()),
                         contentUri = URI(
