@@ -74,4 +74,5 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:common"))
     implementation(project(":feature:browser:navigation"))
+    implementation(project(":feature:player"))
 }
