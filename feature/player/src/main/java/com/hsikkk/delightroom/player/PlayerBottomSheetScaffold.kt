@@ -3,6 +3,8 @@
 package com.hsikkk.delightroom.player
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.onSizeChanged
@@ -90,7 +93,7 @@ private fun PlayerBottomSheetScaffoldBody(
 
     val coroutineScope = rememberCoroutineScope()
 
-    if (isExpanded){
+    if (isExpanded) {
         BackHandler {
             coroutineScope.launch { scaffoldState.bottomSheetState.partialExpand() }
         }
@@ -98,7 +101,7 @@ private fun PlayerBottomSheetScaffoldBody(
 
     BottomSheetScaffold(
         content = {
-            Box{
+            Box {
                 content()
 
                 if (isExpanded) {
@@ -113,11 +116,14 @@ private fun PlayerBottomSheetScaffoldBody(
                     modifier = Modifier.onSizeChanged {
                         if (!isExpanded)
                             sheetPeekHeight = with(density) { it.height.toDp() }
+                    }.let{
+                        if(isExpanded) it.animateContentSize()
+                        else it
                     }
                 ) {
                     PlayerBottomSheetContent(
-                        isExpanded = isExpanded,
                         uiState = uiState,
+                        scaffoldState = scaffoldState,
                         expandBottomSheet = {
                             coroutineScope.launch { scaffoldState.bottomSheetState.expand() }
                         },
@@ -135,15 +141,18 @@ private fun PlayerBottomSheetScaffoldBody(
         sheetPeekHeight = if (uiState.currentTrack != null) sheetPeekHeight else 0.dp,
         containerColor = Color.White,
         sheetDragHandle = null,
-        sheetShape = if (isExpanded) RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp) else RectangleShape,
+        sheetShape = if (isExpanded) RoundedCornerShape(
+            topStart = 20.dp,
+            topEnd = 20.dp
+        ) else RectangleShape,
         sheetSwipeEnabled = isExpanded,
     )
 }
 
 @Composable
 private fun PlayerBottomSheetContent(
-    isExpanded: Boolean,
     uiState: PlayerBottomSheetScaffoldState,
+    scaffoldState: BottomSheetScaffoldState,
     expandBottomSheet: () -> Unit,
     onClickPlay: () -> Unit,
     onClickGoPrev: () -> Unit,
@@ -153,16 +162,39 @@ private fun PlayerBottomSheetContent(
     onVolumeChanged: (Float) -> Unit,
     onProgressChanged: (Long) -> Unit,
 ) {
-    if (!isExpanded) {
+
+    val isExpanded by remember {
+        derivedStateOf { scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded }
+    }
+
+    val isCollapsed by remember {
+        derivedStateOf { scaffoldState.bottomSheetState.targetValue == SheetValue.PartiallyExpanded }
+    }
+
+    val expandAnimation by animateFloatAsState(
+        targetValue = if (isExpanded) 1f else 0f,
+        label = "expandAnim",
+    )
+
+    val collapseAnimation by animateFloatAsState(
+        targetValue = if (isCollapsed) 1f else 0f,
+        label = "collapseAnim",
+    )
+
+    if(collapseAnimation != 0f){
         BottomMiniPlayer(
-            modifier = Modifier.fillMaxWidth(),
             isInPlaying = uiState.isInPlaying,
             currentTrack = uiState.currentTrack!!,
             currentPosition = uiState.currentPosition,
             onClick = expandBottomSheet,
             onClickPlayButton = onClickPlay,
+            modifier = Modifier
+                .fillMaxWidth()
+                .alpha(collapseAnimation)
         )
-    } else {
+    }
+
+    if(expandAnimation != 0f){
         PlayerBottomSheetBody(
             currentTrack = uiState.currentTrack!!,
             isInPlaying = uiState.isInPlaying,
@@ -177,20 +209,23 @@ private fun PlayerBottomSheetContent(
             onClickShuffle = onClickShuffle,
             onVolumeChanged = onVolumeChanged,
             onProgressChanged = onProgressChanged,
+            modifier = Modifier
+                .alpha(expandAnimation)
         )
     }
+
 }
 
 @Composable
 private fun BottomSheetScrim(
-    scaffoldState : BottomSheetScaffoldState,
-){
+    scaffoldState: BottomSheetScaffoldState,
+) {
     val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.3f))
-            .clickableSingle {
+            .background(Color.Transparent)
+            .clickableSingle(enableRipple = false) {
                 coroutineScope.launch { scaffoldState.bottomSheetState.partialExpand() }
             },
     )

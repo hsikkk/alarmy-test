@@ -43,6 +43,7 @@ import kotlin.time.toDuration
 
 @Composable
 internal fun PlayerBottomSheetBody(
+    modifier: Modifier = Modifier,
     currentTrack: Track,
     isInPlaying: Boolean,
     currentPosition: Long,
@@ -58,7 +59,7 @@ internal fun PlayerBottomSheetBody(
     onProgressChanged: (Long) -> Unit,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
