@@ -74,14 +74,14 @@ internal fun PlayerBottomSheetBody(
                 .aspectRatio(1f),
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         TrackInfo(
             currentTrack = currentTrack,
             modifier = Modifier.fillMaxWidth(),
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Controller(
             modifier = Modifier,
@@ -95,14 +95,14 @@ internal fun PlayerBottomSheetBody(
             onClickShuffle = onClickShuffle,
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         VolumeSlider(
             volume = volume,
             onVolumeChanged = onVolumeChanged,
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         ProgressSlider(
             currentDuration = currentTrack.duration,
