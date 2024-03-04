@@ -11,9 +11,18 @@ data class MediaPlayerStatus(
     val currentPosition: Long,
 
     val volume: Float,
+
+    val repeatMode: RepeatMode,
+    val isShuffleEnabled: Boolean,
 ){
     val currentTrack: Track?
         get() = playList.getOrNull(currentTrackIndex)
-    val duration: Int?
+    val duration: Long?
         get() = currentTrack?.duration
+}
+
+enum class RepeatMode{
+    REPEAT_OFF,
+    REPEAT_ALL,
+    REPEAT_ONE,
 }

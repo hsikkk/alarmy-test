@@ -109,7 +109,7 @@ class LocalMediaDataSourceImpl(
                     Track(
                         id = id,
                         name = cursor.getString(nameColumn),
-                        duration = cursor.getInt(durationColumn),
+                        duration = cursor.getLong(durationColumn),
                         albumId = cursor.getLong(albumIdColumn),
                         albumName = cursor.getString(albumColumn),
                         artist = cursor.getString(albumArtistColumn),

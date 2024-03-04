@@ -6,10 +6,14 @@ import android.os.Handler
 import android.os.Looper
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Player.REPEAT_MODE_ALL
+import androidx.media3.common.Player.REPEAT_MODE_OFF
+import androidx.media3.common.Player.REPEAT_MODE_ONE
 import androidx.media3.session.MediaController
 import com.hsikkk.delightroom.data.datasource.LocalMediaPlayerDataSource
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerAction
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerStatus
+import com.hsikkk.delightroom.domain.model.valueobject.RepeatMode
 import com.hsikkk.delightroom.mediaplayer.MedialPlayerService
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.Flow
@@ -26,12 +30,19 @@ class LocalMediaPlayerDataSourceImpl(
             playList = emptyList(),
             currentPosition = 0,
             volume = 0f,
+            repeatMode = RepeatMode.REPEAT_OFF,
+            isShuffleEnabled = false,
         )
     )
 
     init {
         runPlayerAction {
             addPlayerEventListener()
+            playerStatusFlow.value = playerStatusFlow.value.copy(
+                repeatMode = this.repeatMode.toRepeatMode(),
+                volume = this.volume,
+                isShuffleEnabled = this.shuffleModeEnabled,
+            )
         }
     }
 
@@ -71,12 +82,20 @@ class LocalMediaPlayerDataSourceImpl(
                 MediaPlayerAction.GoPrev -> seekToPrevious()
 
                 is MediaPlayerAction.SeekTo -> {
-                    playerStatusFlow.value.duration?.let{
-                        seekTo((it * action.progress).toLong())
-                    }
+                    seekTo(action.position)
                 }
 
                 is MediaPlayerAction.ChangeVolume -> volume = action.volume
+
+                is MediaPlayerAction.ChangeRepeatMode -> {
+                    repeatMode = when(action.repeatMode){
+                        RepeatMode.REPEAT_OFF -> REPEAT_MODE_OFF
+                        RepeatMode.REPEAT_ALL -> REPEAT_MODE_ALL
+                        RepeatMode.REPEAT_ONE -> REPEAT_MODE_ONE
+                    }
+                }
+
+                is MediaPlayerAction.SetShuffleEnabled -> shuffleModeEnabled = action.enabled
             }
         }
     }
@@ -142,9 +161,31 @@ class LocalMediaPlayerDataSourceImpl(
                 )
             }
 
+            override fun onRepeatModeChanged(repeatMode: Int) {
+                super.onRepeatModeChanged(repeatMode)
+                playerStatusFlow.value = playerStatusFlow.value.copy(
+                    repeatMode = repeatMode.toRepeatMode()
+                )
+            }
+
+
+            override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
+                super.onShuffleModeEnabledChanged(shuffleModeEnabled)
+                playerStatusFlow.value = playerStatusFlow.value.copy(
+                    isShuffleEnabled = shuffleModeEnabled
+                )
+            }
+
             override fun close() {
                 handler.removeCallbacks(checkCurrentPositionRunnable)
             }
         })
+    }
+
+    private fun Int.toRepeatMode() = when(this){
+        REPEAT_MODE_OFF -> RepeatMode.REPEAT_OFF
+        REPEAT_MODE_ALL -> RepeatMode.REPEAT_ALL
+        REPEAT_MODE_ONE -> RepeatMode.REPEAT_ONE
+        else -> RepeatMode.REPEAT_OFF // Not valid
     }
 }

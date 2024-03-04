@@ -20,10 +20,18 @@ sealed interface MediaPlayerAction {
     object GoPrev : MediaPlayerAction
 
     data class SeekTo(
-        val progress: Float
+        val position: Long
     ) : MediaPlayerAction
 
     data class ChangeVolume(
         val volume: Float
+    ): MediaPlayerAction
+
+    data class ChangeRepeatMode(
+        val repeatMode: RepeatMode
+    ): MediaPlayerAction
+
+    data class SetShuffleEnabled(
+        val enabled: Boolean
     ): MediaPlayerAction
 }

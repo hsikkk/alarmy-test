@@ -5,7 +5,7 @@ import java.net.URI
 data class Track(
     val id: Long,
     val name: String,
-    val duration: Int,
+    val duration: Long,
     val albumId: Long,
     val albumName: String,
     val artist: String,
