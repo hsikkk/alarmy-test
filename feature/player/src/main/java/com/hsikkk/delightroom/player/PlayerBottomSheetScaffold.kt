@@ -146,6 +146,7 @@ private fun PlayerBottomSheetScaffoldBody(
             topEnd = 20.dp
         ) else RectangleShape,
         sheetSwipeEnabled = isExpanded,
+        sheetShadowElevation = 4.dp
     )
 }
 
@@ -224,7 +225,7 @@ private fun BottomSheetScrim(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Transparent)
+            .background(Color.Black.copy(alpha = 0.3f))
             .clickableSingle(enableRipple = false) {
                 coroutineScope.launch { scaffoldState.bottomSheetState.partialExpand() }
             },
