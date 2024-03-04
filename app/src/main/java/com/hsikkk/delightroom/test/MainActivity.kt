@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
+import com.hsikkk.delightroom.player.PlayerBottomSheetScaffold
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -12,7 +13,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DelightroomtestTheme {
-                AppNavHost()
+                PlayerBottomSheetScaffold {
+                    AppNavHost()
+                }
             }
         }
     }
