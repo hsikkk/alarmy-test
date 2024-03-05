@@ -11,7 +11,7 @@ fun NavGraphBuilder.browser(
 ) {
     composable(BrowserDirections.albums){
         AlbumRoute(
-            goBack = {}, //TODO
+            goBack = { navController.popBackStack() },
             goAlbumDetail = { albumId ->  navController.navigateToAlbumTrackList(albumId)}
         )
     }
