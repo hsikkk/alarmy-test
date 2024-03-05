@@ -26,8 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.hsikkk.delightroom.browser.ui.R
+import com.hsikkk.delightroom.designsystem.component.AlbumArt
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
 
 @Composable
@@ -88,9 +88,9 @@ private fun AlbumInfoSection(
         verticalAlignment = Alignment.Top,
         modifier = modifier,
     ) {
-        AsyncImage(
-            model = albumArtUri,
-            contentDescription = albumName,
+        AlbumArt(
+            uri = albumArtUri,
+            description = albumName,
             modifier = Modifier.size(80.dp),
         )
 

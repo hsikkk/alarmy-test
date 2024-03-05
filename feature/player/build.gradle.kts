@@ -64,7 +64,6 @@ dependencies {
     implementation(libs.lifecycle.compose)
 
     implementation(libs.immutable)
-    implementation(libs.bundles.coil)
 
     implementation(project(mapOf("path" to ":core:domain")))
     implementation(project(mapOf("path" to ":core:designsystem")))

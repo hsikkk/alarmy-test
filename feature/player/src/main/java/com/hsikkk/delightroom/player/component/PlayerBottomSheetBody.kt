@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import com.hsikkk.delightroom.designsystem.component.AlbumArt
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
 import com.hsikkk.delightroom.domain.model.entity.Track
 import com.hsikkk.delightroom.domain.model.valueobject.RepeatMode
@@ -69,8 +69,10 @@ internal fun PlayerBottomSheetBody(
 
         AlbumArt(
             uri = currentTrack.albumArtUri.toString(),
+            description = currentTrack.name,
             modifier = Modifier
                 .padding(horizontal = 40.dp)
+                .clip(RoundedCornerShape(12.dp))
                 .fillMaxWidth()
                 .aspectRatio(1f),
         )
@@ -114,19 +116,6 @@ internal fun PlayerBottomSheetBody(
 
         Spacer(modifier = Modifier.height(12.dp))
     }
-}
-
-@Composable
-private fun AlbumArt(
-    uri: String,
-    modifier: Modifier,
-) {
-    AsyncImage(
-        model = uri,
-        contentDescription = uri,
-        modifier = modifier
-            .clip(RoundedCornerShape(12.dp)),
-    )
 }
 
 @Composable
