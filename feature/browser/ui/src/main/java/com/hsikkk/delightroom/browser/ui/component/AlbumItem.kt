@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.hsikkk.delightroom.common.util.clickableSingle
+import com.hsikkk.delightroom.designsystem.component.AlbumArt
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
 import com.hsikkk.delightroom.domain.model.entity.Album
 import java.net.URI
@@ -45,9 +45,9 @@ internal fun AlbumItem(
                 .background(Color.White),
             horizontalAlignment = Alignment.Start,
         ) {
-            AsyncImage(
-                model = album.albumArtUri.toString(),
-                contentDescription = album.name,
+            AlbumArt(
+                uri = album.albumArtUri.toString(),
+                description = album.name,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)

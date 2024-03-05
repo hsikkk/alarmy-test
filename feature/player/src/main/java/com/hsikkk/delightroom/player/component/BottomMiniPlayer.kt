@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.hsikkk.delightroom.common.util.clickableSingle
+import com.hsikkk.delightroom.designsystem.component.AlbumArt
 import com.hsikkk.delightroom.designsystem.theme.DelightroomtestTheme
 import com.hsikkk.delightroom.domain.model.entity.Track
 import java.lang.Float.min
@@ -149,9 +149,9 @@ private fun Player(
             )
         }
 
-        AsyncImage(
-            model = currentTrack.albumArtUri.toString(),
-            contentDescription = currentTrack.albumName,
+        AlbumArt(
+            uri = currentTrack.albumArtUri.toString(),
+            description = currentTrack.albumName,
             modifier = Modifier.size(60.dp)
         )
     }
