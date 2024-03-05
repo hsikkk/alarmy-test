@@ -12,6 +12,7 @@ internal data class PlayerBottomSheetScaffoldState(
     val volume: Float,
     val repeatMode: RepeatMode,
     val isShuffleEnabled: Boolean,
+    val canGoNext: Boolean,
 ) {
     companion object {
         fun initialState(): PlayerBottomSheetScaffoldState = PlayerBottomSheetScaffoldState(
@@ -21,6 +22,7 @@ internal data class PlayerBottomSheetScaffoldState(
             volume = 1f,
             repeatMode = RepeatMode.REPEAT_OFF,
             isShuffleEnabled = false,
+            canGoNext = false,
         )
     }
 }

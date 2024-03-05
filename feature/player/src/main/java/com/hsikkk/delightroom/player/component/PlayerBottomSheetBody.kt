@@ -50,6 +50,7 @@ internal fun PlayerBottomSheetBody(
     volume: Float,
     repeatMode: RepeatMode,
     isShuffleEnabled: Boolean,
+    canGoNext: Boolean,
     onClickPlay: () -> Unit,
     onClickGoPrev: () -> Unit,
     onClickGoNext: () -> Unit,
@@ -88,6 +89,7 @@ internal fun PlayerBottomSheetBody(
             isInPlaying = isInPlaying,
             repeatMode = repeatMode,
             isShuffleEnabled = isShuffleEnabled,
+            canGoNext = canGoNext,
             onClickPlay = onClickPlay,
             onClickGoPrev = onClickGoPrev,
             onClickGoNext = onClickGoNext,
@@ -164,6 +166,7 @@ private fun Controller(
     isInPlaying: Boolean,
     repeatMode: RepeatMode,
     isShuffleEnabled: Boolean,
+    canGoNext: Boolean,
     onClickPlay: () -> Unit,
     onClickGoPrev: () -> Unit,
     onClickGoNext: () -> Unit,
@@ -178,13 +181,15 @@ private fun Controller(
         ControllerButton(
             resId = if (repeatMode == RepeatMode.REPEAT_ONE) R.drawable.ic_repeat_one else R.drawable.ic_repeat,
             tint = if (repeatMode == RepeatMode.REPEAT_OFF) Color.LightGray else MaterialTheme.colorScheme.primary,
-            onClick = onClickRepeatMode
+            onClick = onClickRepeatMode,
+            enabled = true,
         )
 
         ControllerButton(
             resId = R.drawable.ic_prev,
             tint = MaterialTheme.colorScheme.primary,
-            onClick = onClickGoPrev
+            onClick = onClickGoPrev,
+            enabled = true,
         )
 
         PlayButton(
@@ -196,14 +201,16 @@ private fun Controller(
 
         ControllerButton(
             resId = R.drawable.ic_next,
-            tint = MaterialTheme.colorScheme.primary,
-            onClick = onClickGoNext
+            tint = if(canGoNext) MaterialTheme.colorScheme.primary else Color.LightGray,
+            onClick = onClickGoNext,
+            enabled = canGoNext,
         )
 
         ControllerButton(
             resId = R.drawable.ic_shuffle,
             tint = if (isShuffleEnabled) Color.LightGray else MaterialTheme.colorScheme.primary,
-            onClick = onClickShuffle
+            onClick = onClickShuffle,
+            enabled = true,
         )
     }
 }
@@ -214,9 +221,11 @@ private fun ControllerButton(
     resId: Int,
     tint: Color,
     onClick: () -> Unit,
+    enabled: Boolean,
 ) {
     IconButton(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier.size(36.dp)
     ) {
         Icon(
@@ -324,6 +333,7 @@ private fun PlayerBottomSheetBodyPreview() {
             volume = 0.5f,
             repeatMode = RepeatMode.REPEAT_OFF,
             isShuffleEnabled = false,
+            canGoNext = false,
             onClickPlay = {},
             onClickGoPrev = {},
             onClickGoNext = {},
