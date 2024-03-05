@@ -14,6 +14,7 @@ data class MediaPlayerStatus(
 
     val repeatMode: RepeatMode,
     val isShuffleEnabled: Boolean,
+    val canGoNext: Boolean,
 ){
     val currentTrack: Track?
         get() = playList.getOrNull(currentTrackIndex)

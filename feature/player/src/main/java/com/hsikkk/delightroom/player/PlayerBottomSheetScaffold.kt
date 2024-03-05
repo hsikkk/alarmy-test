@@ -203,6 +203,7 @@ private fun PlayerBottomSheetContent(
             volume = uiState.volume,
             repeatMode = uiState.repeatMode,
             isShuffleEnabled = uiState.isShuffleEnabled,
+            canGoNext = uiState.canGoNext,
             onClickPlay = onClickPlay,
             onClickGoPrev = onClickGoPrev,
             onClickGoNext = onClickGoNext,
@@ -260,6 +261,7 @@ private fun PlayerBottomSheetScaffoldPreview() {
                 volume = 0.7f,
                 repeatMode = RepeatMode.REPEAT_ONE,
                 isShuffleEnabled = true,
+                canGoNext = false,
             ),
             scaffoldState = scaffoldState,
             content = {

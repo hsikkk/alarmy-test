@@ -38,6 +38,7 @@ internal class PlayerBottomSheetScaffoldViewModel @Inject constructor(
                             volume = it.volume,
                             repeatMode = it.repeatMode,
                             isShuffleEnabled = it.isShuffleEnabled,
+                            canGoNext = it.canGoNext,
                         )
                     }
                 }.collect()
