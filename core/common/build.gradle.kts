@@ -43,11 +43,6 @@ dependencies {
 
     implementation(libs.core.ktx)
 
-    implementation(libs.orbit.core)
-    implementation(libs.orbit.viewmodel)
-
-    implementation(libs.compose.navigation)
-
     implementation(platform(libs.compose.bom))
     implementation(libs.material3)
 }
