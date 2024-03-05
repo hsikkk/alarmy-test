@@ -3,8 +3,9 @@
 package com.hsikkk.delightroom.player
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,21 +13,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.onSizeChanged
@@ -43,6 +42,7 @@ import com.hsikkk.delightroom.player.component.BottomMiniPlayer
 import com.hsikkk.delightroom.player.component.PlayerBottomSheetBody
 import com.hsikkk.delightroom.player.contract.PlayerBottomSheetScaffoldIntent
 import com.hsikkk.delightroom.player.contract.PlayerBottomSheetScaffoldState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.net.URI
 
@@ -54,14 +54,9 @@ fun PlayerBottomSheetScaffold(
 
     val uiState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
 
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(skipHiddenState = true)
-    )
-
     PlayerBottomSheetScaffoldBody(
         uiState = uiState,
         content = content,
-        scaffoldState = scaffoldState,
         onClickPlay = { viewModel.onIntent(PlayerBottomSheetScaffoldIntent.ClickPlay) },
         onClickGoPrev = { viewModel.onIntent(PlayerBottomSheetScaffoldIntent.ClickPrev) },
         onClickGoNext = { viewModel.onIntent(PlayerBottomSheetScaffoldIntent.ClickNext) },
@@ -75,7 +70,6 @@ fun PlayerBottomSheetScaffold(
 @Composable
 private fun PlayerBottomSheetScaffoldBody(
     uiState: PlayerBottomSheetScaffoldState,
-    scaffoldState: BottomSheetScaffoldState,
     onClickPlay: () -> Unit,
     onClickGoPrev: () -> Unit,
     onClickGoNext: () -> Unit,
@@ -85,32 +79,51 @@ private fun PlayerBottomSheetScaffoldBody(
     onProgressChanged: (Long) -> Unit,
     content: @Composable () -> Unit
 ) {
-    val isExpanded by remember {
-        derivedStateOf { scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded }
-    }
-
     var sheetPeekHeight by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
 
     val coroutineScope = rememberCoroutineScope()
 
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(
+            skipHiddenState = true,
+            initialValue = SheetValue.PartiallyExpanded,
+        )
+    )
+
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(isExpanded){
+        coroutineScope.launch {
+            if(isExpanded) {
+                delay(100)
+                scaffoldState.bottomSheetState.expand()
+            }
+            else {
+                scaffoldState.bottomSheetState.partialExpand()
+            }
+        }
+    }
+
     if (isExpanded) {
         BackHandler {
-            coroutineScope.launch { scaffoldState.bottomSheetState.partialExpand() }
+           isExpanded = false
         }
     }
 
     BottomSheetScaffold(
         content = {
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(bottom = sheetPeekHeight)
             ) {
                 content()
 
-                if (isExpanded) {
-                    BottomSheetScrim(scaffoldState = scaffoldState)
-                }
+                BottomSheetScrim(
+                    onClick = { isExpanded = false },
+                    isVisible = isExpanded,
+                )
             }
         },
         scaffoldState = scaffoldState,
@@ -120,17 +133,12 @@ private fun PlayerBottomSheetScaffoldBody(
                     modifier = Modifier.onSizeChanged {
                         if (!isExpanded)
                             sheetPeekHeight = with(density) { it.height.toDp() }
-                    }.let{
-                        if(isExpanded) it.animateContentSize()
-                        else it
                     }
                 ) {
                     PlayerBottomSheetContent(
                         uiState = uiState,
-                        scaffoldState = scaffoldState,
-                        expandBottomSheet = {
-                            coroutineScope.launch { scaffoldState.bottomSheetState.expand() }
-                        },
+                        isExpanded = isExpanded,
+                        expandBottomSheet = {  isExpanded = true },
                         onClickPlay = onClickPlay,
                         onClickGoPrev = onClickGoPrev,
                         onClickGoNext = onClickGoNext,
@@ -157,7 +165,7 @@ private fun PlayerBottomSheetScaffoldBody(
 @Composable
 private fun PlayerBottomSheetContent(
     uiState: PlayerBottomSheetScaffoldState,
-    scaffoldState: BottomSheetScaffoldState,
+    isExpanded: Boolean,
     expandBottomSheet: () -> Unit,
     onClickPlay: () -> Unit,
     onClickGoPrev: () -> Unit,
@@ -167,26 +175,11 @@ private fun PlayerBottomSheetContent(
     onVolumeChanged: (Float) -> Unit,
     onProgressChanged: (Long) -> Unit,
 ) {
-
-    val isExpanded by remember {
-        derivedStateOf { scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded }
-    }
-
-    val isCollapsed by remember {
-        derivedStateOf { scaffoldState.bottomSheetState.targetValue == SheetValue.PartiallyExpanded }
-    }
-
-    val expandAnimation by animateFloatAsState(
-        targetValue = if (isExpanded) 1f else 0f,
-        label = "expandAnim",
-    )
-
-    val collapseAnimation by animateFloatAsState(
-        targetValue = if (isCollapsed) 1f else 0f,
-        label = "collapseAnim",
-    )
-
-    if(collapseAnimation != 0f){
+    AnimatedVisibility(
+        visible = !isExpanded,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
         BottomMiniPlayer(
             isInPlaying = uiState.isInPlaying,
             currentTrack = uiState.currentTrack!!,
@@ -195,11 +188,14 @@ private fun PlayerBottomSheetContent(
             onClickPlayButton = onClickPlay,
             modifier = Modifier
                 .fillMaxWidth()
-                .alpha(collapseAnimation)
         )
     }
 
-    if(expandAnimation != 0f){
+    AnimatedVisibility(
+        visible = isExpanded,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
         PlayerBottomSheetBody(
             currentTrack = uiState.currentTrack!!,
             isInPlaying = uiState.isInPlaying,
@@ -216,36 +212,32 @@ private fun PlayerBottomSheetContent(
             onVolumeChanged = onVolumeChanged,
             onProgressChanged = onProgressChanged,
             modifier = Modifier
-                .alpha(expandAnimation)
         )
     }
-
 }
 
 @Composable
 private fun BottomSheetScrim(
-    scaffoldState: BottomSheetScaffoldState,
+    isVisible: Boolean,
+    onClick: () -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.3f))
-            .clickableSingle(enableRipple = false) {
-                coroutineScope.launch { scaffoldState.bottomSheetState.partialExpand() }
-            },
-    )
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.3f))
+                .clickableSingle(enableRipple = false) { onClick() },
+        )
+    }
 }
 
 @Preview(name = "하단 player 및 bottomSheet가 포함된 scaffold")
 @Composable
 private fun PlayerBottomSheetScaffoldPreview() {
-    val scaffoldState = rememberBottomSheetScaffoldState()
-
-    LaunchedEffect(Unit) {
-        scaffoldState.bottomSheetState.expand()
-    }
-
     DelightroomtestTheme {
         PlayerBottomSheetScaffoldBody(
             uiState = PlayerBottomSheetScaffoldState(
@@ -267,7 +259,6 @@ private fun PlayerBottomSheetScaffoldPreview() {
                 isShuffleEnabled = true,
                 canGoNext = false,
             ),
-            scaffoldState = scaffoldState,
             content = {
                 Box(
                     modifier = Modifier
