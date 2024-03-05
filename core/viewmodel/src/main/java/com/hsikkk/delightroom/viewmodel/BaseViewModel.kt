@@ -1,4 +1,4 @@
-package com.hsikkk.delightroom.common.viewmodel
+package com.hsikkk.delightroom.viewmodel
 
 import androidx.lifecycle.ViewModel
 import org.orbitmvi.orbit.ContainerHost

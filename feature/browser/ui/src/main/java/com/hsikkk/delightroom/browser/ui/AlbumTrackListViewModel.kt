@@ -4,10 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import com.hsikkk.delightroom.browser.ui.contract.AlbumTrackListIntent
 import com.hsikkk.delightroom.browser.ui.contract.AlbumTrackListSideEffect
 import com.hsikkk.delightroom.browser.ui.contract.AlbumTrackListState
-import com.hsikkk.delightroom.common.viewmodel.BaseViewModel
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerAction
 import com.hsikkk.delightroom.domain.usecase.media.GetAlbumTrackListUseCase
 import com.hsikkk.delightroom.domain.usecase.media.RequestMediaPlayerActionUseCase
+import com.hsikkk.delightroom.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import org.orbitmvi.orbit.Container

@@ -38,5 +38,4 @@ dependencies {
     implementation(libs.media3.common)
     implementation(libs.media3.session)
     implementation(libs.media3.exoplayer)
-    implementation(libs.coroutine)
 }

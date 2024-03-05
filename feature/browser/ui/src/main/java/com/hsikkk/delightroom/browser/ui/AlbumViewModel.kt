@@ -3,9 +3,9 @@ package com.hsikkk.delightroom.browser.ui
 import com.hsikkk.delightroom.browser.ui.contract.AlbumIntent
 import com.hsikkk.delightroom.browser.ui.contract.AlbumSideEffect
 import com.hsikkk.delightroom.browser.ui.contract.AlbumState
-import com.hsikkk.delightroom.common.viewmodel.BaseViewModel
 import com.hsikkk.delightroom.domain.model.exception.NoPermissionException
 import com.hsikkk.delightroom.domain.usecase.media.GetAlbumsUseCase
+import com.hsikkk.delightroom.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import org.orbitmvi.orbit.Container

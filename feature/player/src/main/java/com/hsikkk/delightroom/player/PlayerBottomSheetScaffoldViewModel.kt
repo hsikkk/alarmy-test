@@ -1,13 +1,13 @@
 package com.hsikkk.delightroom.player
 
 import androidx.lifecycle.viewModelScope
-import com.hsikkk.delightroom.common.viewmodel.BaseViewModel
 import com.hsikkk.delightroom.domain.model.valueobject.MediaPlayerAction
 import com.hsikkk.delightroom.domain.model.valueobject.RepeatMode
 import com.hsikkk.delightroom.domain.usecase.media.ObserveMediaPlayerStatusUseCase
 import com.hsikkk.delightroom.domain.usecase.media.RequestMediaPlayerActionUseCase
 import com.hsikkk.delightroom.player.contract.PlayerBottomSheetScaffoldIntent
 import com.hsikkk.delightroom.player.contract.PlayerBottomSheetScaffoldState
+import com.hsikkk.delightroom.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach

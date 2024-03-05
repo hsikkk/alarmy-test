@@ -55,14 +55,9 @@ android {
 dependencies {
 
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    debugImplementation(libs.ui.tooling)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -72,7 +67,7 @@ dependencies {
     implementation(project(":core:di"))
     implementation(project(":core:mediaplayer"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:common"))
+    implementation(project(":core:navigation"))
     implementation(project(":feature:browser:navigation"))
     implementation(project(":feature:player"))
 }

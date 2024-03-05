@@ -48,4 +48,5 @@ dependencies {
     implementation(libs.lifecycle.compose)
     implementation(project(mapOf("path" to ":core:common")))
     implementation(project(mapOf("path" to ":feature:browser:ui")))
+    implementation(project(mapOf("path" to ":core:navigation")))
 }

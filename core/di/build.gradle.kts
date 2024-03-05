@@ -43,7 +43,6 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.media3.common)
-    implementation(libs.media3.exoplayer)
 
     implementation(project(":core:domain"))
     implementation(project(":core:data"))

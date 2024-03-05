@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hsikkk.delightroom.common"
+    namespace = "com.hsikkk.delightroom.viewmodel"
     compileSdk = 34
 
     defaultConfig {
@@ -28,12 +28,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -43,6 +37,6 @@ dependencies {
 
     implementation(libs.core.ktx)
 
-    implementation(platform(libs.compose.bom))
-    implementation(libs.material3)
+    implementation(libs.orbit.core)
+    implementation(libs.orbit.viewmodel)
 }
