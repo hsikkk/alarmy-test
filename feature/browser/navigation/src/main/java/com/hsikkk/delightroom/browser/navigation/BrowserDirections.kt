@@ -5,8 +5,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.hsikkk.delightroom.browser.ui.KEY_ALBUM_ID
-import com.hsikkk.delightroom.common.navigation.NavigationCommand
-import com.hsikkk.delightroom.common.navigation.putParameter
+import com.hsikkk.delightroom.navigation.NavigationCommand
+import com.hsikkk.delightroom.navigation.putParameter
 
 object BrowserDirections {
     val albums = object : NavigationCommand {

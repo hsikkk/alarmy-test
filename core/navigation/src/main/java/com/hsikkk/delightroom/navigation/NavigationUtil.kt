@@ -1,4 +1,4 @@
-package com.hsikkk.delightroom.common.navigation
+package com.hsikkk.delightroom.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry

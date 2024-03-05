@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.hsikkk.delightroom.browser.ui.AlbumRoute
 import com.hsikkk.delightroom.browser.ui.AlbumTrackListRoute
-import com.hsikkk.delightroom.common.navigation.composable
+import com.hsikkk.delightroom.navigation.composable
 
 fun NavGraphBuilder.browser(
     navController : NavController,

@@ -69,4 +69,5 @@ dependencies {
     implementation(project(mapOf("path" to ":core:domain")))
     implementation(project(mapOf("path" to ":core:designsystem")))
     implementation(project(mapOf("path" to ":core:common")))
+    implementation(project(mapOf("path" to ":core:viewmodel")))
 }

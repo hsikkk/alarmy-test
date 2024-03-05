@@ -1,4 +1,4 @@
-package com.hsikkk.delightroom.common.navigation
+package com.hsikkk.delightroom.navigation
 
 import androidx.navigation.NamedNavArgument
 

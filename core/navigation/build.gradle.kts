@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hsikkk.delightroom.browser.navigation"
+    namespace = "com.hsikkk.delightroom.navigation"
     compileSdk = 34
 
     defaultConfig {
@@ -31,22 +31,16 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
     buildFeatures {
         compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
 }
 
 dependencies {
 
     implementation(libs.core.ktx)
-
     implementation(libs.compose.navigation)
-
-    implementation(libs.lifecycle.compose)
-    implementation(project(mapOf("path" to ":core:common")))
-    implementation(project(mapOf("path" to ":feature:browser:ui")))
-    implementation(project(mapOf("path" to ":core:navigation")))
 }

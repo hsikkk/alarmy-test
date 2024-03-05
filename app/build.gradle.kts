@@ -72,7 +72,7 @@ dependencies {
     implementation(project(":core:di"))
     implementation(project(":core:mediaplayer"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:common"))
+    implementation(project(":core:navigation"))
     implementation(project(":feature:browser:navigation"))
     implementation(project(":feature:player"))
 }
