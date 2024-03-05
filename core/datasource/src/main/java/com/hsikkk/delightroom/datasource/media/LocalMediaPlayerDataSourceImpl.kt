@@ -32,6 +32,7 @@ class LocalMediaPlayerDataSourceImpl(
             volume = 0f,
             repeatMode = RepeatMode.REPEAT_OFF,
             isShuffleEnabled = false,
+            canGoNext = false,
         )
     )
 
@@ -157,14 +158,16 @@ class LocalMediaPlayerDataSourceImpl(
 
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 playerStatusFlow.value = playerStatusFlow.value.copy(
-                    currentTrackIndex = currentMediaItemIndex
+                    currentTrackIndex = currentMediaItemIndex,
+                    canGoNext = hasNextMediaItem(),
                 )
             }
 
             override fun onRepeatModeChanged(repeatMode: Int) {
                 super.onRepeatModeChanged(repeatMode)
                 playerStatusFlow.value = playerStatusFlow.value.copy(
-                    repeatMode = repeatMode.toRepeatMode()
+                    repeatMode = repeatMode.toRepeatMode(),
+                    canGoNext = hasNextMediaItem(),
                 )
             }
 
